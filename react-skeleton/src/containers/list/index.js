@@ -37,7 +37,7 @@ class List extends Component {
       return list[parentId].map(listItem => {
         return (
           <ul key={listItem._id}>
-            <li>
+            <li id={`id-${listItem._id}`}>
               {listItem.title}
               {this.buildTree(list, listItem._id)}
             </li>
@@ -53,10 +53,7 @@ class List extends Component {
     return (
       <div>
         <h2>Ненумерованный список (дерево) с функцией inline редактирования</h2>
-        {console.log(list)}
-        <ul>
-          {this.buildTree(list, 0)}
-        </ul>
+        {this.buildTree(list, 0)}
       </div>
     );
   }
