@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import * as actions from '../../store/actions';
-import getDataFromApi from '../../utils/fakeAPI';
+import getItemFromApi from '../../utils/fakeAPI';
 
 class List extends Component {
 
@@ -15,6 +15,26 @@ class List extends Component {
   constructor() {
     super();
     this.buildTree = this.buildTree.bind(this);
+  }
+
+  generateRandomIds() { // this function generate array of numbers from 1 to 10 in a random order
+    let ids = [];
+    for (let i = 1; i <= 10; i++) {
+      ids.push(i);
+    }
+    for (let i = ids.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [ids[i], ids[j]] = [ids[j], ids[i]];
+    }
+    return ids;
+  }
+
+  getAllDataFromApi(ids) {
+    let data = [];
+    for (let i = 0; i < ids.length; i++) {
+      data.push(getItemFromApi(ids[i]));
+    }
+    return data;
   }
 
   itemsToList(items) {
@@ -37,7 +57,7 @@ class List extends Component {
       return list[parentId].map(listItem => {
         return (
           <ul key={listItem._id}>
-            <li id={`id-${listItem._id}`}>
+            <li>
               {listItem.title}
               {this.buildTree(list, listItem._id)}
             </li>
@@ -48,12 +68,16 @@ class List extends Component {
   }
 
   render() {
-    const items = getDataFromApi();
-    const list = this.itemsToList(items);
+    const ids =  this.generateRandomIds();
+    const items = this.getAllDataFromApi(ids); // this function imitate request to API to get item by id in random order
+    const list = Array.isArray(items) ? this.itemsToList(items) : [];
     return (
       <div>
-        <h2>Ненумерованный список (дерево) с функцией inline редактирования</h2>
-        {this.buildTree(list, 0)}
+        <div>
+          <h2>Ненумерованный список (дерево) с функцией inline редактирования</h2>
+          {this.buildTree(list, 0)}
+        </div>
+        {console.log(items)}
       </div>
     );
   }

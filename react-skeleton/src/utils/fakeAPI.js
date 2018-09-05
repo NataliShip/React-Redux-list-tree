@@ -1,5 +1,5 @@
-export default function getDataFromApi() {
-  const data = [
+export default function getItemFromApi(id) {
+  let apiData = [
     {_id: 1, title: 'Список', parent:null},
     {_id: 2, title: 'Первый пункт', parent:1},
     {_id: 3, title: 'Второй пункт', parent:1},
@@ -11,5 +11,13 @@ export default function getDataFromApi() {
     {_id: 9, title: 'Третий пункт', parent:1},
     {_id: 10, title: 'Четвертый пункт', parent:1}
   ];
-  return data;
+
+  let apiResponse = '';
+
+  apiData.map(item => {
+    if (item._id == id) {
+      apiResponse = item;
+    }
+  });
+  return apiResponse; // return single item like real API
 }
