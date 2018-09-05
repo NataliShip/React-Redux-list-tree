@@ -1,4 +1,4 @@
-export default function getItemFromApi(id) {
+export function getItemFromApi(id) {
   let apiData = [
     {_id: 1, title: 'Список', parent:null},
     {_id: 2, title: 'Первый пункт', parent:1},
@@ -20,4 +20,12 @@ export default function getItemFromApi(id) {
     }
   });
   return apiResponse; // return single item like real API
+}
+
+export default function getAllDataFromApi(ids) { // send requests to get all random data
+  let data = [];
+  for (let i = 0; i < ids.length; i++) {
+    data.push(getItemFromApi(ids[i]));
+  }
+  return data;
 }
