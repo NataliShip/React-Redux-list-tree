@@ -15,11 +15,11 @@ class List extends Component {
   };
 
   buildTree(list, parentId) {
-    if (Array.isArray(list[parentId])) {
+    if (Array.isArray(list[parentId])) { //this is the recursive call of function
       return list[parentId].map(listItem => {
         return (
-          <ul key={listItem._id}>
-            <li>
+          <ul className='list__body' key={listItem._id}>
+            <li className='list__item-title'>
               {listItem.title}
               {this.buildTree(list, listItem._id)}
             </li>
@@ -31,13 +31,14 @@ class List extends Component {
 
   render() {
     const ids =  generateRandomIds();
-    const items = getAllDataFromApi(ids); // this function imitate request to API to get item by id in random order
+    const items = getAllDataFromApi(ids); // this function imitate requests to API to get item by id in random order
     const list = Array.isArray(items) ? itemsToTree(items) : [];
     return (
-      <div>
-        <h2>Ненумерованный список (дерево) с функцией inline редактирования</h2>
-        {this.buildTree(list, 0)}
-        {console.log(items)}
+      <div className='list'>
+        <h2 className='list__header'>Ненумерованный список (дерево) с функцией inline редактирования</h2>
+        <div className='list__container'>
+          {this.buildTree(list, 0)}
+        </div>
       </div>
     );
   }
