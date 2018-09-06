@@ -3,16 +3,22 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import * as actions from '../../store/actions';
-import getAllDataFromApi from '../../utils/fakeAPI';
 import itemsToTree from '../../utils/transformItemsToTree';
-import generateRandomIds from '../../utils/generateRandomIds';
 
 class List extends Component {
 
   static propTypes = {
     history: PropTypes.object.isRequired,
-    dispatch: PropTypes.func
+    dispatch: PropTypes.func,
+    items: PropTypes.array.isRequired,
   };
+
+  constructor() {
+    super();
+    this.state = {
+      list: [],
+    };
+  }
 
   buildTree(list, parentId) {
     if (Array.isArray(list[parentId])) { //this is the recursive call of function
@@ -29,10 +35,12 @@ class List extends Component {
     }
   }
 
+  componentDidMount() {
+    this.props.dispatch(actions.list.getData());
+  }
+
   render() {
-    const ids =  generateRandomIds();
-    const items = getAllDataFromApi(ids); // this function imitate requests to API to get item by id in random order
-    const list = Array.isArray(items) ? itemsToTree(items) : [];
+    const list = Array.isArray(this.props.items) ? itemsToTree(this.props.items) : [];
     return (
       <div className='list'>
         <h2 className='list__header'>Ненумерованный список (дерево) с функцией inline редактирования</h2>
@@ -45,5 +53,7 @@ class List extends Component {
 }
 
 export default withRouter(
-  connect(state => ({}))(List)
+  connect(state => ({
+    items: state.list.items
+  }))(List)
 );

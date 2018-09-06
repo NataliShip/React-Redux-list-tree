@@ -21,11 +21,3 @@ export function getItemFromApi(id) {
   });
   return apiResponse; // return single item like real API
 }
-
-export default function getAllDataFromApi(ids) { // send requests to get all random data
-  let data = [];
-  for (let i = 0; i < ids.length; i++) {
-    data.push(getItemFromApi(ids[i]));
-  }
-  return data;
-}
