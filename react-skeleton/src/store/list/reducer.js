@@ -3,6 +3,7 @@ import {types} from './actions.js';
 
 const initState = {
   items: [],
+  tree: [],
 };
 
 export default reducer(initState, {
@@ -11,19 +12,14 @@ export default reducer(initState, {
     return {
       ...state,
       items: action.payload.data,
+      tree: action.payload.tree,
     };
   },
 
-  // [types.CLOSE]: (state, action) => {
-  //   if (state.name) {
-  //     return {
-  //       ...state,
-  //       show: false,
-  //       result: action.payload.result,
-  //       resolve: null
-  //     };
-  //   } else {
-  //     return state;
-  //   }
-  // }
+  [types.CHANGE_TITLE]: (state, action) => {
+    return {
+      ...state,
+      items: [...state.items, action.payload.element],
+    };
+  },
 });

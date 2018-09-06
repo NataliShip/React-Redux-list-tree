@@ -3,7 +3,6 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {withRouter} from 'react-router-dom';
 import * as actions from '../../store/actions';
-import itemsToTree from '../../utils/transformItemsToTree';
 
 class List extends Component {
 
@@ -11,13 +10,27 @@ class List extends Component {
     history: PropTypes.object.isRequired,
     dispatch: PropTypes.func,
     items: PropTypes.array.isRequired,
+    tree: PropTypes.array.isRequired,
   };
 
   constructor() {
     super();
     this.state = {
-      list: [],
+      redacting: false,
     };
+    this.redactItem = this.redactItem.bind(this);
+  }
+  redactItem(id, e) {
+    e.stopPropagation();
+    this.setState({redacting: true});
+    let redactedElement = {};
+    this.props.items.map(item => {
+      if (item._id == id) {
+        redactedElement = item;
+        console.log(redactedElement);
+        this.props.dispatch(actions.list.changeTitle(redactedElement));
+      }
+    });
   }
 
   buildTree(list, parentId) {
@@ -25,7 +38,7 @@ class List extends Component {
       return list[parentId].map(listItem => {
         return (
           <ul className='list__body' key={listItem._id}>
-            <li className='list__item-title'>
+            <li className='list__item-title' onClick={(event) => this.redactItem(listItem._id, event)}>
               {listItem.title}
               {this.buildTree(list, listItem._id)}
             </li>
@@ -40,12 +53,12 @@ class List extends Component {
   }
 
   render() {
-    const list = Array.isArray(this.props.items) ? itemsToTree(this.props.items) : [];
     return (
       <div className='list'>
+        {/*{console.log(this.props.items)}*/}
         <h2 className='list__header'>Ненумерованный список (дерево) с функцией inline редактирования</h2>
         <div className='list__container'>
-          {this.buildTree(list, 0)}
+          {this.buildTree(this.props.tree, 0)}
         </div>
       </div>
     );
@@ -54,6 +67,7 @@ class List extends Component {
 
 export default withRouter(
   connect(state => ({
-    items: state.list.items
+    items: state.list.items,
+    tree: state.list.tree,
   }))(List)
 );
