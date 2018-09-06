@@ -7,7 +7,14 @@
      display: flex;
      justify-content: center;
    }
-   &__body {
-
+   &__item-title {
+     cursor: pointer;
+     border: 0;
+     font-size: 14px;
+     width: 300px;
+     &:focus {
+       background: @blue;
+       color: @white;
+     }
    }
  }

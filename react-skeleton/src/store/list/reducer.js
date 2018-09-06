@@ -4,6 +4,7 @@ import {types} from './actions.js';
 const initState = {
   items: [],
   tree: [],
+  change: {},
 };
 
 export default reducer(initState, {
@@ -19,7 +20,7 @@ export default reducer(initState, {
   [types.CHANGE_TITLE]: (state, action) => {
     return {
       ...state,
-      items: [...state.items, action.payload.element],
+      change: action.payload.element,
     };
   },
 });

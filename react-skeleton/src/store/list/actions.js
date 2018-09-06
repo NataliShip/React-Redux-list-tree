@@ -9,11 +9,11 @@ export default {
 
   getData: () => {
     return dispatch => {
-      let ids = []; // generate array of numbers from 1 to 10 in a random order
+      let ids = [];
       for (let i = 1; i <= 10; i++) {
         ids.push(i);
       }
-      for (let i = ids.length - 1; i > 0; i--) {
+      for (let i = ids.length - 1; i > 0; i--) {  // generate array of numbers from 1 to 10 in a random order
         const j = Math.floor(Math.random() * (i + 1));
         [ids[i], ids[j]] = [ids[j], ids[i]];
       }
@@ -48,9 +48,9 @@ export default {
     };
   },
 
-  changeTitle: (element) => {
+  changeTitle: (element, value) => {
     return dispatch => {
-      element.title = 'example';
+      element.title = value;
       dispatch({
         type: types.CHANGE_TITLE,
         payload: {element}
