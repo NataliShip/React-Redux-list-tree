@@ -14,3 +14,7 @@
 **Задача**
 
 Реализовать вывод вложенного ненумерованного списка (дерева) с функцией inline редактирования. 
+
+**DEMO: http://reactapp.ru/list-tree/** 
+
+![Alt text](http://reactapp.ru/img/list-tree.png )
